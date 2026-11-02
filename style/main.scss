@@ -1,23 +1,29 @@
 @import "helpers";
 @import "fonts/clear-sans.css";
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;800&family=IM+Fell+English:ital@0;1&display=swap");
 
 $field-width: 500px;
 $grid-spacing: 15px;
 $grid-row-cells: 4;
 $tile-size: ($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells;
-$tile-border-radius: 3px;
+$tile-border-radius: 4px;
 
 $mobile-threshold: $field-width + 20px;
 
-$text-color: #776E65;
-$bright-text-color: #f9f6f2;
+$text-color: #e8d9b5;            // parchment
+$dark-text-color: #3b2a1a;       // ink
+$bright-text-color: #fbf3dc;
 
-$tile-color: #eee4da;
-$tile-gold-color: #edc22e;
-$tile-gold-glow-color: lighten($tile-gold-color, 15%);
+$tile-color: #f1e3c2;
+$tile-gold-color: #d4a937;
+$tile-gold-glow-color: #ffd96a;
+
+$title-font: "Cinzel Decorative", "Cinzel", Georgia, serif;
+$number-font: "Cinzel", Georgia, serif;
+$body-font: "IM Fell English", Georgia, "Times New Roman", serif;
 
 $game-container-margin-top: 40px;
-$game-container-background: #bbada0;
+$game-container-background: #2a1f17;
 
 $transition-speed: 100ms;
 
@@ -25,10 +31,19 @@ html, body {
   margin: 0;
   padding: 0;
 
-  background: #faf8ef;
+  background: #0d0a14;
   color: $text-color;
-  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: $body-font;
   font-size: 18px;
+}
+
+html {
+  background: #07050b radial-gradient(ellipse at top, #2b1d3a 0%, #120d1c 600px, #07050b 1200px) no-repeat;
+  min-height: 100%;
+}
+
+body {
+  background: transparent;
 }
 
 body {
@@ -40,8 +55,11 @@ body {
 }
 
 h1.title {
+  font-family: $title-font;
   font-size: 80px;
   font-weight: bold;
+  color: $tile-gold-color;
+  text-shadow: 0 0 12px rgba($tile-gold-glow-color, .45), 0 2px 0 #5a3d12;
   margin: 0;
   display: block;
   float: left;
@@ -69,14 +87,16 @@ h1.title {
 
   position: relative;
   display: inline-block;
-  background: $game-container-background;
+  background: linear-gradient(#3a1414, #240b0b);
+  border: 1px solid $tile-gold-color;
+  font-family: $number-font;
   padding: 15px 25px;
   font-size: $height;
   height: $height;
   line-height: $height + 22px;
   font-weight: bold;
-  border-radius: 3px;
-  color: white;
+  border-radius: 4px;
+  color: $tile-gold-glow-color;
   margin-top: 8px;
   text-align: center;
 
@@ -89,6 +109,7 @@ h1.title {
     font-size: 13px;
     line-height: 13px;
     text-align: center;
+    letter-spacing: 1px;
     color: $tile-color;
   }
 
@@ -99,7 +120,7 @@ h1.title {
     font-size: $height;
     line-height: $height;
     font-weight: bold;
-    color: rgba($text-color, .9);
+    color: rgba($tile-gold-glow-color, .9);
     z-index: 100;
     @include animation(move-up 600ms ease-in);
     @include animation-fill-mode(both);
@@ -121,7 +142,7 @@ p {
 }
 
 a {
-  color: $text-color;
+  color: $tile-gold-color;
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
@@ -130,12 +151,14 @@ a {
 strong {
   &.important {
     text-transform: uppercase;
+    font-family: $number-font;
+    color: $tile-gold-color;
   }
 }
 
 hr {
   border: none;
-  border-bottom: 1px solid lighten($text-color, 40%);
+  border-bottom: 1px solid rgba($tile-gold-color, .35);
   margin-top: 20px;
   margin-bottom: 30px;
 }
@@ -158,11 +181,13 @@ hr {
 // Styles for buttons
 @mixin button {
   display: inline-block;
-  background: darken($game-container-background, 20%);
-  border-radius: 3px;
+  background: linear-gradient(#8e1b1b, #5c0d0d);
+  border: 1px solid $tile-gold-color;
+  border-radius: 4px;
   padding: 0 20px;
+  font-family: $number-font;
   text-decoration: none;
-  color: $bright-text-color;
+  color: $tile-gold-glow-color;
   height: 40px;
   line-height: 42px;
 }
@@ -186,6 +211,8 @@ hr {
     touch-action: none;
 
     background: $game-container-background;
+    border: 2px solid $tile-gold-color;
+    box-shadow: 0 0 25px rgba(0, 0, 0, .6), inset 0 0 30px rgba(0, 0, 0, .55);
     border-radius: $tile-border-radius * 2;
     width: $field-width;
     height: $field-width;
@@ -201,12 +228,14 @@ hr {
       right: 0;
       bottom: 0;
       left: 0;
-      background: rgba($tile-color, .5);
+      background: rgba(#0d0a14, .75);
       z-index: 100;
 
       text-align: center;
 
       p {
+        font-family: $title-font;
+        color: $text-color;
         font-size: 60px;
         font-weight: bold;
         height: 60px;
@@ -235,8 +264,12 @@ hr {
       @include animation-fill-mode(both);
 
       &.game-won {
-        background: rgba($tile-gold-color, .5);
-        color: $bright-text-color;
+        background: rgba($tile-gold-color, .45);
+
+        p {
+          color: $bright-text-color;
+          text-shadow: 0 0 14px $tile-gold-glow-color;
+        }
 
 	a.keep-playing-button {
 	  display: inline-block;
@@ -276,7 +309,8 @@ hr {
 
     border-radius: $tile-border-radius;
 
-    background: rgba($tile-color, .35);
+    background: rgba($tile-color, .08);
+    box-shadow: inset 0 0 0 1px rgba($tile-gold-color, .15);
 
     &:last-child {
       margin-right: 0;
@@ -318,8 +352,10 @@ hr {
     border-radius: $tile-border-radius;
 
     background: $tile-color;
+    font-family: $number-font;
     text-align: center;
-    font-weight: bold;
+    font-weight: 800;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .45);
     z-index: 10;
 
     font-size: 55px;
@@ -331,54 +367,30 @@ hr {
   -moz-transition-property: -moz-transform;
   transition-property: transform;
 
-  $base: 2;
-  $exponent: 1;
-  $limit: 11;
+  // Hogwarts palette for each power of two: background, text color, glow
+  $tile-styles: (
+    2:    (#f1e3c2, $dark-text-color, false),   // parchment
+    4:    (#ddc58f, $dark-text-color, false),   // aged parchment
+    8:    (#9c6b30, $bright-text-color, false), // Hufflepuff badger brown
+    16:   (#e0b02a, $dark-text-color, false),   // Hufflepuff yellow
+    32:   (#2c4c91, $bright-text-color, false), // Ravenclaw blue
+    64:   (#a87b3c, $bright-text-color, false), // Ravenclaw bronze
+    128:  (#1f6b3e, $bright-text-color, true),  // Slytherin green
+    256:  (#a9b3bb, $dark-text-color, true),    // Slytherin silver
+    512:  (#8b1010, $bright-text-color, true),  // Gryffindor scarlet
+    1024: (#c99a2e, $bright-text-color, true),  // Gryffindor gold
+    2048: (#ffd34d, $dark-text-color, true)     // Golden Snitch
+  );
 
-  // Colors for all 11 states, false = no special color
-  $special-colors: false false, // 2
-                   false false, // 4
-                   #f78e48 true, // 8
-                   #fc5e2e true, // 16
-                   #ff3333 true, // 32
-                   #ff0000 true, // 64
-                   false true, // 128
-                   false true, // 256
-                   false true, // 512
-                   false true, // 1024
-                   false true; // 2048
-
-  // Build tile colors
-  @while $exponent <= $limit {
-    $power: pow($base, $exponent);
-
+  @each $power, $style in $tile-styles {
     &.tile-#{$power} .tile-inner {
-      // Calculate base background color
-      $gold-percent: ($exponent - 1) / ($limit - 1) * 100;
-      $mixed-background: mix($tile-gold-color, $tile-color, $gold-percent);
+      background: nth($style, 1);
+      color: nth($style, 2);
 
-      $nth-color: nth($special-colors, $exponent);
-
-      $special-background: nth($nth-color, 1);
-      $bright-color: nth($nth-color, 2);
-
-      @if $special-background {
-        $mixed-background: mix($special-background, $mixed-background, 55%);
-      }
-
-      @if $bright-color {
-        color: $bright-text-color;
-      }
-
-      // Set background
-      background: $mixed-background;
-
-      // Add glow
-      $glow-opacity: max($exponent - 4, 0) / ($limit - 4);
-
-      @if not $special-background {
+      @if nth($style, 3) {
+        $glow-opacity: if($power == 2048, .8, .35);
         box-shadow: 0 0 30px 10px rgba($tile-gold-glow-color, $glow-opacity / 1.8),
-                    inset 0 0 0 1px rgba(white, $glow-opacity / 3);
+                    inset 0 0 0 1px rgba(white, .3);
       }
 
       // Adjust font size for bigger numbers
@@ -397,14 +409,14 @@ hr {
         }
       }
     }
-
-    $exponent: $exponent + 1;
   }
 
   // Super tiles (above 2048)
   &.tile-super .tile-inner {
     color: $bright-text-color;
-    background: mix(#333, $tile-gold-color, 95%);
+    background: radial-gradient(circle, #3b1f5c, #12091d);
+    color: $tile-gold-glow-color;
+    box-shadow: 0 0 30px 10px rgba(#9b6bff, .4);
 
     font-size: 30px;
 
